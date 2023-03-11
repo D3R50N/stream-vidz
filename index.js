@@ -43,7 +43,7 @@ app.use(async (req, res, next) => {
   const vstats = statSync(video);
   var end = parts[1] ? parseInt(parts[1], 10) : vstats.size - 1;
 
-  end = Math.min(end, start + ~~(vstats.size / 1000));
+  // end = Math.min(end, start + ~~(vstats.size / 1000));
   // end -= ~~(vstats.size / 1000);
   // const end = start + 1000;
 
