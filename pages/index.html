@@ -92,7 +92,7 @@
     <video id="video" poster="img/load.gif" src="/api/video/?video=test.mp4" autoplay="true" controls></video>
 
     <div id="error">
-        <img src="img/load.gif" alt="" width="300" >
+        <img src="img/load.gif" alt="" width="300">
         <h1>
             <span class="red">Impossible</span> de lire le stream
 
@@ -102,8 +102,11 @@
     <script>
         const video = document.getElementById("video");
         video.addEventListener("error", () => {
-            document.getElementById("error").style.display="block";
+            document.getElementById("error").style.display = "block";
         });
+        video.addEventListener("loadeddata", () => {
+            video.play()
+        })
     </script>
 </body>
 
