@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Vidz</title>
+    <style>
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+
+        }
+
+        .controls .progress {
+            cursor: pointer;
+            width: 75.390625%;
+        }
+
+        .controls>* {
+            float: left;
+            width: 3.90625%;
+            height: 100%;
+            margin-left: 0.1953125%;
+            display: block;
+        }
+
+        .controls>*:first-child {
+            margin-left: 0;
+        }
+
+        .controls button {
+            border: none;
+            cursor: pointer;
+            background: transparent;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .controls button:hover,
+        .controls button:focus {
+            opacity: 0.5;
+        }
+
+        .controls progress {
+            display: block;
+            width: 100%;
+            height: 81%;
+            margin-top: 0.125rem;
+            border: none;
+            color: #0095dd;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+            border-radius: 2px;
+        }
+
+        #error {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            text-align: center;
+            display: none;
+        }
+
+        .red {
+            color: red;
+        }
+
+        #error h1 {
+            color: white;
+            font-family: sans-serif;
+            position: absolute;
+            top: 45%;
+            transform: translateY(-50%);
+            text-align: center;
+            width: 100%;
+            font-size: 5vw;
+
+        }
+    </style>
+</head>
+
+<body>
+    <video id="video" poster="img/load.gif" src="/api/video/?video=Mayday.mp4" autoplay="true" controls></video>
+
+    <div id="error">
+        <img src="img/load.gif" alt="" width="300" >
+        <h1>
+            <span class="red">Impossible</span> de lire le stream
+
+        </h1>
+    </div>
+
+    <script>
+        const video = document.getElementById("video");
+        video.addEventListener("error", () => {
+            document.getElementById("error").style.display="block";
+        });
+    </script>
+</body>
+
+</html>
