@@ -1,31 +1,38 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { extname, resolve } = require("path");
-const { createReadStream, statSync, existsSync } = require("fs");
+const { createReadStream, statSync, existsSync, readdir, readdirSync } = require("fs");
 const app = express();
+  const videos = [];
 
-app.use(express.static(__dirname+"/pages"))
+app.use(express.static(__dirname + "/pages"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.set("view engine", "ejs");
+app.set("views", resolve("pages"));
+
 app.get("/", (req, res) => {
-  res.sendFile(resolve("pages","index.html"));
+ 
+  res.render("home", {
+      videos: videos,
+    });
 });
 
-app.use(async (req, res, next) => {
-  const isApiVideo = req.url.startsWith("/api/video");
-  const hasVideoName = req.query.video;
-  const isGoodFormat =
-    hasVideoName && req.query.video.match(/^[a-z0-9-_]*\.(mp4|avi)*$/i);
-  if (!isApiVideo || !isGoodFormat) {
-    return next();
-  }
+app.get("/watch/:id", (req, res) => {
+  const id = req.params.id;
 
-  const video = resolve("videos", req.query.video);
+  res.render("index", { id: id });
+});
 
+
+app.get("/api/video",async (req, res, next) => {
+  const vid = videos[parseInt(req.query.video) - 1];
+  const videoName = vid.title+"."+vid.ext;
+
+  const video = resolve("videos", videoName);
   if (!existsSync(video)) {
-         return res.status(404).sendFile(resolve("pages", "error.html"));
-
+    return res.status(404).sendFile(resolve("pages", "error.html"));
   }
   const range = req.headers.range;
   if (!range) {
@@ -60,12 +67,24 @@ app.use(async (req, res, next) => {
 });
 
 app.use((req, res, next) => {
-     return res.status(404).sendFile(resolve("pages", "error.html"));
-
+  return res.status(404).sendFile(resolve("pages", "error.html"));
 });
 app.listen(3000, () => {
+   readdir(resolve("videos"), (err, files) => {
+     files.forEach((file) => {
+       videos.push({
+         id: videos.length + 1,
+         title: capitalize(file.split(".")[0]),
+         ext : file.split(".")[1],
+       });
+     });
+   });
   console.log("Server is running on port http://localhost:3000");
 });
+
+function capitalize(str) {
+  return str[0].toUpperCase() + str.slice(1);
+}
 
 function toSpacedStr(str) {
   let ret = "";

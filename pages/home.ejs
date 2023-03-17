@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Vidz</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Montserrat';
+        }
+
+        body {
+            background: black;
+        }
+
+        .img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        ul {
+            /* position: absolute; */
+            top: 50%;
+            left: 50%;
+            /* transform: translate(-50%, -50%); */
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        ul li {
+            margin: 1rem 1rem;
+            background: #ffffff13;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: sans-serif;
+            width: 300px;
+            max-width: 80vw;
+            text-align: center;
+            transition-duration: .2s;
+            cursor: pointer;
+        }
+
+        ul li:hover {
+            scale: 1.01;
+
+        }
+
+        ul li:hover>.img {
+            background: linear-gradient(45deg, #ffffff00 0%, #e990901a 50%, #ffffff00 100%);
+        }
+
+        ul li p {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition-duration: .2s;
+
+        }
+
+        ul li div {
+            transition-duration: .2s;
+
+        }
+
+        ul li:hover p {
+            color: #c75959;
+        }
+
+        ul li .img {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ffffff00 0%, #ffffff1a 50%, #ffffff00 100%);
+            /* background: url("img/logo.gif");
+            background-size: contain;
+            background-repeat: no-repeat; */
+            margin-bottom: 1rem;
+
+            transition-duration: 4s !important;
+        }
+
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('fonts/Montserrat.ttf');
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -100%;
+
+            }
+
+            100% {
+                background-position: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="img-container"><img src="img/logo.gif" alt="" width="300"></div>
+    <ul>
+        <% for( let index = 0; index < locals.videos.length; index++ ) { %>
+
+        <li class="video-card" id="<%= locals.videos[index].id %>">
+            <div class="img"></div>
+            <p>
+                <%= locals.videos[index].title %>
+                <p />
+        </li>
+        <% } %>
+    </ul>
+
+
+    <script>
+        const cards = document.querySelectorAll('.video-card');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                let a = document.createElement('a');
+                a.href = `/watch/${card.id}`;
+                a.click();
+            })
+        })
+    </script>
+
+</body>
+
+</html>
